@@ -33,9 +33,9 @@ class YOLOFormatter:
         return [sub[item] for item in range(len(lst2)) for sub in [lst1, lst2]]
 
     def _coco_poly2yolo_poly(self, ann, im_w, im_h) -> List[float]:
+        ann = [int(x) for x in list(ann["segmentation"])] 
         pair_index = np.arange(0, len(ann), 2)
         impair_index = np.arange(1, len(ann), 2)
-        print(ann.__getitem__)
         Xs = list(map(ann.__getitem__, pair_index))
         xs = list(map(lambda x: x/im_w, Xs))
         Ys = list(map(ann.__getitem__, impair_index))
@@ -74,12 +74,12 @@ class YOLOFormatter:
             for img in tqdm.tqdm(self.coco.loadImgs(self.coco.imgs)):
                 result = []
                 if img["file_name"].rsplit('/',1)[1] in image_filenames : # check if image is inside your folder first
-                    txt_name = img['file_name'][:-4] + '.txt'
+                    txt_name = (img['file_name'].rsplit("/",13)[13])[:-4] + '.txt'
                     for ann in self.coco.loadAnns(self.coco.getAnnIds(imgIds=img['id'])):
-                        print(ann)
                         line = " ".join([str(x) for x in  self.coco2yolo(ann, img['width'], img['height'])])
                         result.append(f"{ann['category_id']} {line}")
                         os.path.join(labels_path, txt_name)
+                        print(labels_path)
                     with open(os.path.join(labels_path, txt_name), 'w') as f:
                         f.write("\n".join(result))
 
