@@ -146,7 +146,7 @@ def imgRoutine(relativeFolderPath, seuil, testSeuil=False):
                     for j in range(len(strSegList)):
                         if strSegList[j] == 'raw':
                             nPatient= strSegList[j+1].rsplit('_',4)[2]
-                            newSegPath = str(newSegPath+'/refined/labels/'+"BRATS_"+nPatient+"_e"+str(nbSlice)+".png")
+                            newSegPath = str(newSegPath+'/labels_train/'+"BRATS_"+nPatient+"_e"+str(nbSlice)+".png")
                             break
                         else:
                             newSegPath = str(newSegPath+"/"+strSegList[j])
@@ -154,7 +154,7 @@ def imgRoutine(relativeFolderPath, seuil, testSeuil=False):
                     for j in range(len(strFlairList)):
                         if strFlairList[j] == 'raw':
                             nPatient= strFlairList[j+1].rsplit('_',4)[2]
-                            newFlairPath = str(newFlairPath+'/refined/images/'+"BRATS_"+nPatient+"_e"+str(nbSlice)+".png")
+                            newFlairPath = str(newFlairPath+'/train/'+"BRATS_"+nPatient+"_e"+str(nbSlice)+".png")
                             break
                         else:
                             newFlairPath = str(newFlairPath+"/"+strFlairList[j])
