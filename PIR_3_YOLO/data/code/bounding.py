@@ -19,6 +19,8 @@ def polygonalisedContour(file_path):
 
         contours, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
 
+        #print(contours)
+
         for cnt in contours:
                 approx = cv.approxPolyDP(cnt, 0.01*cv.arcLength(cnt, True), True)
                 (x,y)=cnt[0,0]
@@ -42,7 +44,7 @@ def trainDictionary(dico,file_path,contours):
 
         for wrd in file_path.rsplit("/",12): 
                 if wrd == "labels":
-                        file = file+"/"+"train"
+                        file = file+"/"+"images"
                 else:
                         file = file+"/"+wrd
 
@@ -55,11 +57,11 @@ def trainDictionary(dico,file_path,contours):
         for segment in contours :
                 for point in segment:
                         for coord in point:
-                                poly.append(coord) 
+                                poly.append(str(coord))
 
         dico["annotations"].append(     {"id": id,
                                         "image_id":id,
-                                        "segmentation": str(poly),
+                                        "segmentation": poly,
                                         "category_id": 1,
                                         "iscrowd": 0
                                         })
@@ -104,9 +106,10 @@ if __name__ == "__main__":
         dico = {"info":{},"licenses":[],"images":[],"annotations":[],"categories":[{"id":1,"name":"tumeur"}]}
 
         for img in file_path:
+
+        #img = "/home/amfarwati/Documents/PIR_3/data/BRATS/refined/train/labels/BRATS_001_e70.png"
                 file, contour = polygonalisedContour(img)
                 dico = trainDictionary(dico,file,contour)
 
         jsonCOCO_Path = convertToCOCO(dico)
         convertToYolo(jsonCOCO_Path, dossier.rsplit('/', 2)[0]+'/')
-         
