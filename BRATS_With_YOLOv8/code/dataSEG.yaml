@@ -1,0 +1,6 @@
+names:
+- tumeur
+nc: 1
+test: /home/amfarwati/Documents/PIR_3/BRATS_YOLO/datasets/refined/test
+train: /home/amfarwati/Documents/PIR_3/BRATS_YOLO/datasets/refined/train
+val: /home/amfarwati/Documents/PIR_3/BRATS_YOLO/datasets/refined/val
